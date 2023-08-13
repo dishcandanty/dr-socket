@@ -3,20 +3,18 @@
 BUILD_TYPE="Debug"
 FAT=false
 
-if [ $1 = "--release" ]; then
+if [[ $1 = "--release" ]]; then
   BUILD_TYPE="Release"
 fi
 
-build_macos()
-{
+build_macos() {
   ARCH=$1
   cmake -S. -Bcmake-build-${OS_TYPE}-${ARCH}-${BUILD_TYPE} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_OSX_ARCHITECTURES=${ARCH}
   cmake --build cmake-build-${OS_TYPE}-${ARCH}-${BUILD_TYPE} -j 8
 }
 
-build_linux()
-{
-  cmake -S. -Bcmake-build-${OS_TYPE}-${BUILD_TYPE} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+build_linux() {
+  cmake -D CMAKE_C_COMPILER="/usr/bin/clang" -S. -Bcmake-build-${OS_TYPE}-${BUILD_TYPE} -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   cmake --build cmake-build-${OS_TYPE}-${BUILD_TYPE} -j 8
 }
 
